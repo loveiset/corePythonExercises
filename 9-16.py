@@ -2,16 +2,35 @@ def shorter(fileObject):
   new=[]
   fileAll=fileObject.readlines()
   for i in range(len(fileAll)):
-    if len(fileAll[i])<=80:
-      new.append(fileAll[i])
+    print '---',i
+    if len(fileAll[i].strip())<=80:
+      new.append(fileAll[i]+'\n')
     else:
-      temp=fileAll[i][:80]
-      words=temp.split(' ')
-      newLine=' '.join(words[:len(words)-1])
-      nextLine=temp[len(newLine):]
-      new.append(newLine)
-      if i == len(fileAll)-1:
-        
+      if i==len(fileAll)-1:
+        temp=fileAll[i].strip()
+        if len(temp)>80:
+          while len(temp)>80:
+            newline,nextline=shorterLine(temp.strip())
+            new.append(newline+'\n')
+            temp=nextline
+          new.append(temp)
+        else:
+          new.append(temp)
+      else:
+        newline,nextline=shorterLine(fileAll[i].strip())
+        new.append(newline+'\n')
+        fileAll[i+1]=nextline+' '+fileAll[i+1]
+  return new
 def shorterLine(istr):
-  
+  temp=istr[:81]
+  words=temp.split(' ')
+  newLine=' '.join(words[:len(words)-2])
+  nextLine=istr[len(newLine):]
+  return newLine,nextLine
 
+if __name__=='__main__':
+  f=open('test.txt','rw+')
+  n=open('new.txt','w')
+  n.writelines(shorter(f))
+  f.close()
+  n.close()
