@@ -11,18 +11,18 @@ def shorter(fileObject):
         if len(temp)>80:
           while len(temp)>80:
             newline,nextline=shorterLine(temp.strip())
-            new.append(newline+'\n')
-            temp=nextline
+            new.append(newline.strip()+'\n')
+            temp=nextline.strip()
           new.append(temp)
         else:
-          new.append(temp)
+          new.append(temp.strip())
       else:
         newline,nextline=shorterLine(fileAll[i].strip())
         new.append(newline+'\n')
         fileAll[i+1]=nextline+' '+fileAll[i+1]
   return new
 def shorterLine(istr):
-  temp=istr[:81]
+  temp=istr[:82]
   words=temp.split(' ')
   newLine=' '.join(words[:len(words)-2])
   nextLine=istr[len(newLine):]
