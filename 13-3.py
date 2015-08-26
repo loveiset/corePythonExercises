@@ -1,12 +1,12 @@
 class MoneyFmt(object):
-  def __init__(value):
+  def __init__(self,value):
     self.money=float(value)
 
   def update(self,value=None):
     if value:
       try:
         self.money=float(value)
-      except TypeError,e
+      except TypeError,e:
         print e
 
   def __str__(self):
@@ -17,14 +17,18 @@ class MoneyFmt(object):
     val=str(round(abs(self.money),2)).split('.')
     valstring=list(str(val[0])[::-1])
     valstringNew=[]
-    i=0
-    count=len(valstring)/3
-    while i<count:
-      valstringNew.append(valstring[i])
+    i=1
+    count=0
+    while i<=len(valstring):
+      valstringNew.append(valstring[i-1])
       if i%3==0 and i!=0:
-        valstringNew.append(',')
+        count+=1
+        if count<len(valstring)/3.0:
+          valstringNew.append(',')
       i+=1
-    return  '-'*symble + '$' + ''.join(valstringNew.reverse())
+    print valstringNew
+    valstringNew.reverse()
+    return  '-'*symble + '$' + ''.join(valstringNew)+'.'+val[1]
 
   def __repr__(self):
     return repr(self.money)
@@ -32,3 +36,7 @@ class MoneyFmt(object):
   def __nonzero__(self):
     return self.money
 
+a=MoneyFmt('-9824365.5964')
+b=MoneyFmt('234567.3423')
+print b
+print a
